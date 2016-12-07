@@ -22,6 +22,22 @@ exports.handle = (client) => {
     }
   })
 
+  const addBookmark = client.createStep({
+    satisfied() {
+      return Boolean(client.getConversationState().addingBookmark)
+    },
+
+    prompt() {
+      client.addResponse('add_bookmark')
+
+      client.updateConversationState({
+        bookmarkAdded: true
+      })
+
+      client.done()
+    }
+  })
+
   const untrained = client.createStep({
     satisfied() {
       return false
